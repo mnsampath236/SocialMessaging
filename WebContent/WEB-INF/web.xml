@@ -40,8 +40,8 @@
 		<servlet-class>in.social.messaging.controller.FindMailsServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>MessagePostServlet</servlet-name>
-		<url-pattern>/MessagePostServlet</url-pattern>
+		<servlet-name>NewMail</servlet-name>
+		<url-pattern>/NewMail</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>UserAuthentication</servlet-name>

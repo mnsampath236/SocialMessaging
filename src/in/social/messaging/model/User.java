@@ -1,12 +1,8 @@
 package in.social.messaging.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
-public class User {
+@SuppressWarnings("serial")
+public class User implements java.io.Serializable{
 	
-	@Id
 	private String userId;
 	private String firstName;
 	private String lastName;

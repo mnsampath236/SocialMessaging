@@ -8,31 +8,19 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<script src="js/jquery-3.3.1.js"></script>
 		<link rel="stylesheet" href="assets/css/noscript.css" />
+		<script src="js/login.js"></script>
+		<script src="js/registration.js"></script>
 		<script>
-			function messagePost(){
-				location.href = "#messagePost";
+			function signin(){
+				location.href = "#signin";
 			}
 		</script>	
 		<script>
-			function messageUpdate(){
-				location.href = "#messageUpdate";
+			function signup(){
+				location.href = "#signup";
 			}
 		</script>	
-		<script>
-			function messageDelete(){
-				location.href = "#messageDelete";
-			}
-		</script>	
-		<script>
-			function messageRead(){
-				location.href = "#messageRead";
-			}
-		</script>	
-		<script>
-			function messageSharing(){
-				location.href = "#messageSharing";
-			}
-		</script>
+		
 	</head>
 	<body>
 
@@ -52,11 +40,9 @@
 						</div>
 						<nav>
 							<ul>
-								<li><a href="javascript:messagePost();">Post Message</a></li>
-								<li><a href="javascript:messageUpdate();">Update Message</a></li>
-								<li><a href="javascript:messageRead();">Read Messages</a></li>
-								<li><a href="javascript:messageDelete();">Delete Message</a></li>
-								<li><a href="javascript:messageSharing();">Search Message</a></li>
+								<li><a href="javascript:signin();">Sign in</a></li>
+								<li><a href="javascript:signup();">Sign up</a></li>
+								
 							</ul>
 						</nav>
 					</header>
@@ -65,24 +51,20 @@
 					<div id="main">
 
 						<!-- Message Post -->
-							<article id="messagePost">
-									<h2 class="major">Post Message</h2>
+							<article id="signin">
+									<h2 class="major">Sign in Here</h2>
 								<form method="post" action="./MessagePostServlet">
-									<div class="field half first">
-										<label for="name">Message Name:</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
 									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="4"></textarea>
+										<label for="name">User Name:</label>
+										<input type="email" name="signinEmailId" id="signinEmailId" />
+									</div>
+									
+									<div class="field">
+										<label for="message">Password</label>
+										<input type="password" name="singinPassword" id="singinPassword"/>
 									</div>
 									<ul class="actions">
-										<li><input type="submit" value="Send Message" class="special" /></li>
-										<li><input type="reset" value="Reset" /></li>
+										<li><input type="button" value="Sign In" class="special" onclick="login();"/></li>
 									</ul>
 								</form>
 								<ul class="icons">
@@ -91,110 +73,42 @@
 							</article>
 
 						<!-- Message Update -->
-							<article id="messageUpdate">
-									<h2 class="major">Message Update</h2>
+							<article id="signup">
+									<h2 class="major">Sign up Here</h2>
 								<form method="post" action="#">
-									<div class="field half first">
-										<label for="name">Message Name:</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
+									
+									<div class="field">
+										<label for="message">First Name:</label>
+										<input type="text" name="registrationFirstName" id="registrationFirstName" >
 									</div>
 									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="4"></textarea>
+										<label for="message">Last Name</label>
+										<input type="text" name="registrationLastName" id="registrationLastName" >
+									</div>
+									<div class="field">
+										<label for="message">Mobile:</label>
+										<input type="text" name="registrationMobile" id="registrationMobile" >
+									</div>
+									<div class="field">
+										<label for="message">Address:</label>
+										<input type="text" name="registrationAddress" id="registrationAddress" >
+									</div>
+									<div class="field">
+										<label for="message">Email Id</label>
+										<input type="email" name="registrationEmailId" id="registrationEmailId" >
+									</div>
+									<div class="field">
+										<label for="message">Password</label>
+										<input type="password" name="registrationPassword" id="registrationPassword" >
 									</div>
 									<ul class="actions">
-										<li><input type="submit" value="Update Message" class="special" /></li>
-										<li><input type="reset" value="Reset" /></li>
+										<li><input type="button" value="Sign Up" class="special" onclick="registration();"/></li>
 									</ul>
 								</form>
 								<ul class="icons">
 									
 								</ul>
 							</article>
-
-						<!-- Message Reading -->
-							<article id="messageRead">
-									<h2 class="major">Message Reading</h2>
-								<form method="post" action="#">
-									<div class="field half first">
-										<label for="name">Message Name:</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="4"></textarea>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Read Message" class="special" /></li>
-										<li><input type="reset" value="Reset" /></li>
-									</ul>
-								</form>
-								<ul class="icons">
-									
-								</ul>
-							</article>
-
-						<!-- Message Delete -->
-							<article id="messageDelete">
-									<h2 class="major">Message Deletion</h2>
-								<form method="post" action="#">
-									<div class="field half first">
-										<label for="name">Message Name:</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="4"></textarea>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="delete Message" class="special" /></li>
-										<li><input type="reset" value="Reset" /></li>
-									</ul>
-								</form>
-								<ul class="icons">
-									
-								</ul>
-							</article>
-						<!-- Share Messages -->
-							<article id="messageSharing">
-								<h2 class="major">Message Sharing</h2>
-								<form method="post" action="#">
-									<div class="field half first">
-										<label for="name">Message Name:</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="4"></textarea>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Share Message" class="special" /></li>
-										<li><input type="reset" value="Reset" /></li>
-									</ul>
-								</form>
-								<ul class="icons">
-									
-								</ul>
-							</article>
-							
-						<!-- Elements -->
-
 
 					</div>
 

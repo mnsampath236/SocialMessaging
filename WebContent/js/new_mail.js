@@ -34,6 +34,7 @@ function sendMessage() {
 				alert("error: " + JSON.stringify(data) + " status: " + status + " er:" + er);
 			}
 		});
+		window.location="./mail.html"
 	} catch (ex) {
 		alert(ex);
 	}

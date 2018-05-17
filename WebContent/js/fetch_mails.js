@@ -4,10 +4,10 @@ function readMessages() {
 function getMessages(messageType){
 	try {
 		var message = new Object();
-		message.owner = sessionStorage.getItem("emailId");
-		message.privacy = messageType;
+		message.mailFrom = sessionStorage.getItem("userId");
+		message.mailType = messageType;
 		$.ajax({
-			url : "http://localhost:8080/MS/ReadMessages",
+			url : "http://localhost:8080/SocialMessaging/FetchMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),
@@ -15,20 +15,20 @@ function getMessages(messageType){
 			mimeType : 'application/json',
 
 			success : function(data) {
-//				// Check browser support for session storage
-//				if (typeof(Storage) !== "undefined") {
-//				// Store
-//				sessionStorage.setItem("messages", data);
-//				} else {
-//				console.log("Sorry, your browser does not support Web Storage...");
-//				}
+
 				$('#tbody').empty();
-				$.each(data.responseObject, function(idx, obj) {
+				$.each(data.responseBody, function(idx, obj) {
 					var eachrow = "<tr>"
-						+ "<td>" + obj.title + "</td>"
-						+ "<td>" + obj.message + "</td>"
-						+ "<td>" + obj.messageDate + "</td>"
-						+ "</tr>";
+						+ "<td>" + obj.mailSubject + "</td>"
+						+ "<td>" + obj.mailContent + "</td>"
+						+ "<td>" + obj.mailingDate + "</td>";
+					
+						if(obj.mailType === true){
+							eachrow += "<td> Public </td>"
+						}else{
+							eachrow += "<td> Private </td>"
+						}
+						eachrow += "</tr>";
 					$('#tbody').append(eachrow);
 				})
 			},

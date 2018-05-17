@@ -4,10 +4,10 @@ function deleteMessages() {
 function getMessagesForDelete(messageType){
 	try {
 		var message = new Object();
-		message.owner = sessionStorage.getItem("emailId");
-		message.privacy = messageType;
+		message.mailFrom = sessionStorage.getItem("userId");
+		message.mailType = messageType;
 		$.ajax({
-			url : "http://localhost:8080/MS/ReadMessages",
+			url : "http://localhost:8080/SocialMessaging/FetchMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),
@@ -16,12 +16,12 @@ function getMessagesForDelete(messageType){
 
 			success : function(data) {
 				$('#tdbody').empty();
-				$.each(data.responseObject, function(idx, obj) {
+				$.each(data.responseBody, function(idx, obj) {
 					var eachrow = "<tr>"
-						+ "<td>" + obj.title + "</td>"
-						+ "<td>" + obj.message + "</td>"
-						+ "<td>" + obj.messageDate + "</td>"
-						+ "<td><input type='button' value='Delete' onclick='deleteMessabeById("+ obj.messageId+");'/></td>"
+						+ "<td>" + obj.mailSubject + "</td>"
+						+ "<td>" + obj.mailContent + "</td>"
+						+ "<td>" + obj.mailingDate + "</td>"
+						+ "<td><input type='button' value='Delete' onclick='deleteMessabeById("+ obj.mailId+");'/></td>"
 						+ "</tr>";
 					$('#tdbody').append(eachrow);
 				})
@@ -39,13 +39,13 @@ function getMessagesForDelete(messageType){
 
 
 
-function deleteMessabeById(messageId){
+function deleteMessabeById(mailId){
 	try {
 
 		var message = new Object();
-		message.messageId = messageId;
+		message.mailId = mailId;
 		$.ajax({
-			url : "http://localhost:8080/MS/DeleteMessage",
+			url : "http://localhost:8080/SocialMessaging/RemoveMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),
@@ -56,11 +56,11 @@ function deleteMessabeById(messageId){
 				var respJSONString = JSON.stringify(data);
 				console.log(respJSONString);
 				var jsonObj = JSON.parse(respJSONString);
-				console.log(jsonObj.status + " : " + jsonObj.statusMessage);
-				if(jsonObj.status == "Success"){
-					$("#deleteMessageDiv").hide(1000);
+				console.log(jsonObj.responseStatus + " : " + jsonObj.responseMessage + " : " + jsonObj.responseBody);
+				if(jsonObj.responseStatus == "Success"){
 					alert("Message deleted successfully.");
-					window.location="./message.html";
+				}else{
+					alert("Message Not deleted.");
 				}
 			},
 
@@ -71,4 +71,5 @@ function deleteMessabeById(messageId){
 	} catch (ex) {
 		alert(ex);
 	}
+	window.location="./mail.html";
 }

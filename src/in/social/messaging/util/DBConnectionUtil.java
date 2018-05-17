@@ -14,14 +14,30 @@ public class DBConnectionUtil {
     private static Connection connection;
     public static ResultSet resultSet= null;
     public static Statement statement;
-    static {
+    private String dbURL;
+    private String dbDriver;
+    private String userName;
+    private String password;
+    
+    /**
+	 * @param dbURL
+	 * @param dbDriver
+	 * @param userName
+	 * @param password
+	 */
+	public DBConnectionUtil(String dbURL, String dbDriver, String userName, String password) {
+		this.dbURL = dbURL;
+		this.dbDriver = dbDriver;
+		this.userName = userName;
+		this.password = password;
+	}
+	public void loadDBConfiguration() {
         try {
-            String url = "jdbc:mysql://localhost:3306/sma";
-            String driver = "com.mysql.jdbc.Driver";
-            Class.forName(driver);
-            Logger.getLogger(DBConnectionUtil.class.getName()).log(Level.INFO, driver + " Loaded" , driver + " Loaded");
-            Logger.getLogger(DBConnectionUtil.class.getName()).log(Level.INFO, url, url);
-            connection = DriverManager.getConnection(url, "root", "root");
+            
+            Class.forName(dbDriver);
+            Logger.getLogger(DBConnectionUtil.class.getName()).log(Level.INFO, dbDriver + " Loaded" , dbDriver + " Loaded");
+            Logger.getLogger(DBConnectionUtil.class.getName()).log(Level.INFO, dbURL, dbURL);
+            connection = DriverManager.getConnection(dbURL, userName, password);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBConnectionUtil.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

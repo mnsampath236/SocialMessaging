@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="2.5"
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
 	<display-name>SocialMessaging</display-name>
+	<context-param>
+		<param-name>DB_URL</param-name>
+		<param-value>jdbc:mysql://localhost:3306/sma</param-value>
+	</context-param>
+	<context-param>
+		<param-name>DB_DRIVER</param-name>
+		<param-value>com.mysql.jdbc.Driver</param-value>
+	</context-param>
+	<context-param>
+		<param-name>DB_USER</param-name>
+		<param-value>root</param-value>
+	</context-param>
+	<context-param>
+		<param-name>DB_PASSWORD</param-name>
+		<param-value>root</param-value>
+	</context-param>
 	<servlet>
 		<display-name>UserAuthentication</display-name>
 		<servlet-name>UserAuthentication</servlet-name>
@@ -74,4 +90,15 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	<servlet>
+		<description></description>
+		<display-name>DBCServlet</display-name>
+		<servlet-name>DBCServlet</servlet-name>
+		<servlet-class>in.social.messaging.controller.DBCServlet</servlet-class>
+		  <load-on-startup>0</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DBCServlet</servlet-name>
+		<url-pattern>/DBCServlet</url-pattern>
+	</servlet-mapping>
 </web-app>

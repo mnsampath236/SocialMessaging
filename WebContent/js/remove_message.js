@@ -56,7 +56,7 @@ function deleteMessabeById(mailId){
 				var respJSONString = JSON.stringify(data);
 				console.log(respJSONString);
 				var jsonObj = JSON.parse(respJSONString);
-				console.log(jsonObj.responseStatus + " : " + jsonObj.responseMessage + " : " + jsonObj.responseBody);
+				console.log(jsonObj.responseStatus + " : " + jsonObj.responseMessage);
 				if(jsonObj.responseStatus == "Success"){
 					alert("Message deleted successfully.");
 				}else{

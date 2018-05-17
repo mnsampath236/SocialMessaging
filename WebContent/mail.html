@@ -11,6 +11,7 @@
 		<script src="js/change_mail.js"></script>
 		<script src="js/find_mails.js"></script>
 		<script src="js/fetch_mails.js"></script>
+		<script src="js/remove_message.js"></script>
 		<link rel="stylesheet" href="assets/css/noscript.css" />
 		<script>
 			function messagePost(){
@@ -20,11 +21,13 @@
 		</script>	
 		<script>
 			function messageUpdate(){
+				updateMessages();
 				location.href = "#messageUpdate";
 			}
 		</script>	
 		<script>
 			function messageDelete(){
+				deleteMessages();
 				location.href = "#messageDelete";
 			}
 		</script>	
@@ -107,26 +110,19 @@
 							<article id="messageUpdate">
 									<h2 class="major">Message Update</h2>
 								<form method="post" action="#">
-									<div class="field half first">
-										<label for="name">Message Name:</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="4"></textarea>
-									</div>
-									<ul class="actions">
-										<li><input type="submit" value="Update Message" class="special" /></li>
-										<li><input type="reset" value="Reset" /></li>
-									</ul>
+									<table border="1" class="scroll">
+										<thead>
+											<tr>
+												<th width="20%">Title</th>
+												<th width="45%">Message</th>
+												<th width="20%">Date Time</th>
+												<th width="15%"></th>
+											</tr>
+										</thead>
+										<tbody id="tubody" >
+										</tbody>
+									</table>
 								</form>
-								<ul class="icons">
-									
-								</ul>
 							</article>
 
 						<!-- Message Reading -->
@@ -156,21 +152,18 @@
 									<h2 class="major">Message Deletion</h2>
 								<form method="post" action="#">
 									<table border="1" class="scroll">
-							<thead>
-								<tr>
-									<th width="20%">Title</th>
-									<th width="45%">Message</th>
-									<th width="15%">Date Time</th>
-									<th width="20%"></th>
-								</tr>
-							</thead>
-							<tbody id="tdbody" >
-							</tbody>
-						</table>
+										<thead>
+											<tr>
+												<th width="20%">Title</th>
+												<th width="45%">Message</th>
+												<th width="15%">Date Time</th>
+												<th width="20%"></th>
+											</tr>
+										</thead>
+										<tbody id="tdbody" >
+									</tbody>
+								</table>
 								</form>
-								<ul class="icons">
-									
-								</ul>
 							</article>
 						<!-- Share Messages -->
 							<article id="messageSharing">
@@ -196,6 +189,34 @@
 								<ul class="icons">
 									
 								</ul>
+							</article>
+							
+							<!-- Edit Message Post -->
+							<article id="editMessagePost">
+								<h2 class="major">Post Message</h2>
+								<form method="post" action="">
+								<div class="field half first"></div><div class="field half"></div>
+									<div class="field">
+										<label for="name">Mail Type:</label>
+										<select id="editMailType" name="editMailType">
+											<option value="false">Private</option>
+											<option value="true">Public</option>
+										</select>
+									</div>
+									<div class="field">
+										<label for="name">Mail Subject:</label>
+										<input type="text" name="editMailSubject" id="editMailSubject" />
+									</div>
+									<div class="field">
+										<label for="message">Mail Body</label>
+										<textarea id="editMailContent" name="editMailContent" rows="4"></textarea>
+									</div>
+									<ul class="actions">
+										<li><input type="button" value="Update" class="special" onclick="updateMessageById();" /></li>
+										<li><input type="reset" value="Reset" /></li>
+									</ul>
+								</form>
+								
 							</article>
 							
 						<!-- Elements -->

@@ -4,10 +4,10 @@ function updateMessages() {
 function getMessagesForUpdate(messageType){
 	try {
 		var message = new Object();
-		message.owner = sessionStorage.getItem("emailId");
-		message.privacy = messageType;
+		message.mailFrom = sessionStorage.getItem("userId");
+		message.mailType = messageType;
 		$.ajax({
-			url : "http://localhost:8080/MS/ReadMessages",
+			url : "http://localhost:8080/SocialMessaging/FetchMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),
@@ -16,12 +16,11 @@ function getMessagesForUpdate(messageType){
 
 			success : function(data) {
 				$('#tubody').empty();
-				$.each(data.responseObject, function(idx, obj) {
-					console.log(obj);
+				$.each(data.responseBody, function(idx, obj) {
 					var eachrow = "<tr>"
-						+ "<td>" + obj.title + "</td>"
-						+ "<td>" + obj.message + "</td>"
-						+ "<td>" + obj.messageDate + "</td>"
+						+ "<td>" + obj.mailSubject + "</td>"
+						+ "<td>" + obj.mailContent + "</td>"
+						+ "<td>" + obj.mailingDate + "</td>"
 						+ "<td><input type='button' value='Edit' onclick='editMessage("+JSON.stringify(obj)+");'/></td>"
 						+ "</tr>";
 					$('#tubody').append(eachrow);
@@ -40,31 +39,31 @@ function getMessagesForUpdate(messageType){
 
 function editMessage(message){
 	console.log(message);
-	$("#updateMessageDiv").hide(1000);
-	$("#updateMessageContentDiv").show();
-	$("#updateMessageTitle").val(message.title);
-	$("#updateMessageBody").val(message.message);
-	$('.updateMessageType option[value='+message.privacy+']')
-	//$("#updateMessageType").val(message.privacy);
+	$("#editMailSubject").val(message.mailSubject);
+	$("#editMailContent").val(message.mailContent);
+	$('.editMailType option[value='+message.mailType+']')
+	
 	if (typeof(Storage) !== "undefined") {
 		// Store
-		sessionStorage.setItem("updateMessageId",message.messageId);
-		console.log("Email Id stored in session storage. " + sessionStorage.getItem("emailId"));
+		sessionStorage.setItem("mailId",message.mailId);
+		console.log("mailId Id stored in session storage. " + sessionStorage.getItem("mailId"));
 	} else {
 		console.log("Sorry, your browser does not support Web Storage...");
 	}
+	location.href = "#editMessagePost";
 }
 
 function updateMessageById(){
 	try {
 
 		var message = new Object();
-		message.messageId = sessionStorage.getItem("updateMessageId");
-		message.message = $("#updateMessageBody").val();
-		message.owner = sessionStorage.getItem("emailId");
-		message.title = $("#updateMessageTitle").val();
+		message.mailId = sessionStorage.getItem("mailId");
+		message.mailSubject = $("#editMailSubject").val();
+		message.mailFrom = sessionStorage.getItem("userId");
+		message.mailContent = $("#editMailContent").val();
+		message.mailType = $("#editMailType").val();
 		$.ajax({
-			url : "http://localhost:8080/MS/UpdateMessage",
+			url : "http://localhost:8080/SocialMessaging/ChangeMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),
@@ -75,11 +74,11 @@ function updateMessageById(){
 				var respJSONString = JSON.stringify(data);
 				console.log(respJSONString);
 				var jsonObj = JSON.parse(respJSONString);
-				console.log(jsonObj.status + " : " + jsonObj.statusMessage);
-				if(jsonObj.status == "Success"){
-					$("#updateMessageDiv").hide(1000);
+				console.log(jsonObj.responseStatus + " : " + jsonObj.responseMessage);
+				if(jsonObj.responseStatus == "Success"){
 					alert("Message Updated successfully.");
-					window.location="./message.html";
+				}else{
+					alert("Message Updated Fail.");
 				}
 			},
 
@@ -90,4 +89,6 @@ function updateMessageById(){
 	} catch (ex) {
 		alert(ex);
 	}
+
+	window.location="./mail.html";
 }

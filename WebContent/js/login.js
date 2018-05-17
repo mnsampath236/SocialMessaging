@@ -44,3 +44,16 @@ function login() {
 		alert(ex);
 	}
 }
+
+function logout(){
+	sessionStorage.setItem("userId", "");
+	alert("Successfully log out.");
+	window.location="./index.html"
+}
+function checkLogin(){
+	var userId = sessionStorage.getItem("userId");
+	if(userId == ""){
+		alert("Please Login.");
+		window.location = "./index.html";
+	}
+}

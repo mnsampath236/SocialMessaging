@@ -31,6 +31,7 @@ function getMessages(messageType){
 						eachrow += "</tr>";
 					$('#tbody').append(eachrow);
 				})
+				location.href = "#messageRead";
 			},
 
 			error : function(data, status, er) {

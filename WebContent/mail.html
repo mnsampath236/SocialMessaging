@@ -7,6 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/login.js"></script>
 		<script src="js/new_mail.js"></script>
 		<script src="js/change_mail.js"></script>
 		<script src="js/find_mails.js"></script>
@@ -15,18 +16,21 @@
 		<link rel="stylesheet" href="assets/css/noscript.css" />
 		<script>
 			function messagePost(){
+				checkLogin();
 				$("#mailFrom").val(sessionStorage.getItem("userId"));
 				location.href = "#messagePost";
 			}
 		</script>	
 		<script>
 			function messageUpdate(){
+				checkLogin();
 				updateMessages();
 				location.href = "#messageUpdate";
 			}
 		</script>	
 		<script>
 			function messageDelete(){
+				checkLogin();
 				deleteMessages();
 				location.href = "#messageDelete";
 			}
@@ -38,8 +42,9 @@
 			}
 		</script>	
 		<script>
-			function messageSharing(){
-				location.href = "#messageSharing";
+			function messageSearching(){
+				checkLogin();
+				location.href = "#messageSearching";
 			}
 		</script>
 	</head>
@@ -65,7 +70,7 @@
 								<li><a href="javascript:messageUpdate();">Update Message</a></li>
 								<li><a href="javascript:messageRead();">Read Messages</a></li>
 								<li><a href="javascript:messageDelete();">Delete Message</a></li>
-								<li><a href="javascript:messageSharing();">Search Message</a></li>
+								<li><a href="javascript:messageSearching();">Search Message</a></li>
 							</ul>
 						</nav>
 					</header>
@@ -165,24 +170,21 @@
 								</table>
 								</form>
 							</article>
-						<!-- Share Messages -->
-							<article id="messageSharing">
+						<!-- Search Messages -->
+							<article id="messageSearching">
 								<h2 class="major">Message Sharing</h2>
 								<form method="post" action="#">
-									<div class="field half first">
-										<label for="name">Message Name:</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field half">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
 									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="4"></textarea>
+										<label for="name">Message Title:</label>
+										<input type="text" name="findMessageSubject" id="findMessageSubject" />
+									</div>
+									
+									<div class="field">
+										<label for="message">Message Content</label>
+										<textarea name="findMailContent" id="findMailContent" rows="4"></textarea>
 									</div>
 									<ul class="actions">
-										<li><input type="submit" value="Share Message" class="special" /></li>
+										<li><input type="button" value="Search Messages" class="special" onclick="searchMessages();"/></li>
 										<li><input type="reset" value="Reset" /></li>
 									</ul>
 								</form>
@@ -226,7 +228,8 @@
 
 				<!-- Footer -->
 					<footer id="footer">
-						<p class="copyright">&copy; Design and Implemented by Laxmi.</p>
+						<p class="copyright">&copy; Design and Implemented by Laxmi.</p><br>
+						<a href="javascript:logout();">Logout</a>
 					</footer>
 
 			</div>

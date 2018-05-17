@@ -1,12 +1,11 @@
 function searchMessages(){
 	try {
 		var message = new Object();
-		message.owner = sessionStorage.getItem("emailId");
-		message.privacy = $('#searchMessageType').val();
-		message.message = $("#searchMessageBody").val();
-		message.title = $("#searchMessageTitle").val();
+		message.mailFrom = sessionStorage.getItem("userId");
+		message.mailContent = $("#findMailContent").val();
+		message.mailSubject = $("#findMessageSubject").val();
 		$.ajax({
-			url : "http://localhost:8080/MS/searchMessages",
+			url : "http://localhost:8080/SocialMessaging/FindMails",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),
@@ -14,22 +13,22 @@ function searchMessages(){
 			mimeType : 'application/json',
 
 			success : function(data) {
-//				// Check browser support for session storage
-//				if (typeof(Storage) !== "undefined") {
-//				// Store
-//				sessionStorage.setItem("messages", data);
-//				} else {
-//				console.log("Sorry, your browser does not support Web Storage...");
-//				}
 				$('#tbody').empty();
-				$.each(data.responseObject, function(idx, obj) {
+				$.each(data.responseBody, function(idx, obj) {
 					var eachrow = "<tr>"
-						+ "<td>" + obj.title + "</td>"
-						+ "<td>" + obj.message + "</td>"
-						+ "<td>" + obj.messageDate + "</td>"
-						+ "</tr>";
+						+ "<td>" + obj.mailSubject + "</td>"
+						+ "<td>" + obj.mailContent + "</td>"
+						+ "<td>" + obj.mailingDate + "</td>";
+					
+						if(obj.mailType === true){
+							eachrow += "<td> Public </td>"
+						}else{
+							eachrow += "<td> Private </td>"
+						}
+						eachrow += "</tr>";
 					$('#tbody').append(eachrow);
 				})
+				location.href = "#messageRead";
 			},
 
 			error : function(data, status, er) {

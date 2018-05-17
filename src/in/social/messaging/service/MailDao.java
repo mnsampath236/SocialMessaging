@@ -111,7 +111,83 @@ public class MailDao {
 	}
 
 	public Response findMails(Mail mail) {
-		return null;
+		Response response = new Response();
+		PreparedStatement pstmt = null;
+		Connection connection = null;
+		ResultSet resultSet = null;
+		List<Mail> messages = null;
+		try {
+			String query = "select * from mail  where mailFrom = ?";
+			connection = DBConnectionUtil.getconnection();
+			if(mail.getMailSubject().trim().length()>0 && mail.getMailContent().trim().length()>0) {
+				query+=" and mailSubject like ? and mailContent like ?";
+				query+=" union select * from mail  where mailFrom != ? and mailType =? and mailSubject like ? and mailContent like ?";
+				pstmt = connection.prepareStatement(query);
+				pstmt.setString(1, mail.getMailFrom());
+				pstmt.setString(2, "%"+mail.getMailSubject()+"%");
+				pstmt.setString(3, "%"+mail.getMailContent()+"%");
+				pstmt.setString(4, mail.getMailFrom());
+				pstmt.setBoolean(5, true);
+				pstmt.setString(6, "%"+mail.getMailSubject()+"%");
+				pstmt.setString(7, "%"+mail.getMailContent()+"%");
+			}else if (mail.getMailSubject().trim().length()>0 && mail.getMailContent().trim().length() == 0) {
+				query+=" and mailSubject like ? ";
+				query+=" union select * from mail  where mailFrom != ? and mailType =? and mailSubject like ? ";
+				pstmt = connection.prepareStatement(query);
+				pstmt.setString(1, mail.getMailFrom());
+				pstmt.setString(2, "%"+mail.getMailSubject()+"%");
+				pstmt.setString(3, mail.getMailFrom());
+				pstmt.setBoolean(4, true);
+				pstmt.setString(5, "%"+mail.getMailSubject()+"%");
+			}else if (mail.getMailSubject().trim().length()==0 && mail.getMailContent().trim().length() > 0) {
+				query+=" and  mailContent like ?";
+				query+=" union select * from mail  where mailFrom != ? and mailType =? and  mailContent like ?";
+				pstmt = connection.prepareStatement(query);
+				pstmt.setString(1, mail.getMailFrom());
+				pstmt.setString(2, "%"+mail.getMailContent()+"%");
+				pstmt.setString(3, mail.getMailFrom());
+				pstmt.setBoolean(4, true);
+				pstmt.setString(5, "%"+mail.getMailContent()+"%");
+			}else {
+				pstmt = connection.prepareStatement(query);
+				pstmt.setString(1, "");
+			}
+
+			System.err.println("Prepared Statement for find mails after bind variables set:\n\t" + pstmt.toString());
+			resultSet = pstmt.executeQuery();
+			if(resultSet != null){
+				messages = new ArrayList<Mail>();
+				while(resultSet.next()) {
+					Mail mailMsg = new Mail();
+					mailMsg.setMailId(resultSet.getInt(1));
+					mailMsg.setMailContent(resultSet.getString(2));
+					mailMsg.setMailingDate(resultSet.getString(3));
+					mailMsg.setMailSubject(resultSet.getString(4));
+					mailMsg.setMailFrom(resultSet.getString(5));
+					mailMsg.setMailType(resultSet.getBoolean(6));
+					messages.add(mailMsg);
+				}
+				response.setResponseStatus("Success");
+				response.setResponseMessage("Find mails Successfull");
+			}else {
+				response.setResponseStatus("Fail");
+				response.setResponseMessage("Find mails Fail");
+			}
+		} catch (SQLException e) {
+			response.setResponseStatus("Exception");
+			response.setResponseMessage("Find mails Fail");
+			e.printStackTrace();
+		} finally{
+			try{
+				if(resultSet != null) resultSet.close();
+				if(pstmt != null) pstmt.close();
+			} catch(Exception ex){
+
+			}
+		}
+		response.setResponseBody(messages);
+		System.err.println("Find mails response : " + response);
+		return response;
 	}
 
 	public Response newMail(Mail mail) {

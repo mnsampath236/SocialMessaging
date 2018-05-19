@@ -34,6 +34,11 @@ public class MailDao {
 			System.err.println("Prepared Statement for update mail after bind variables set:\n\t" + pstmt.toString());
 			int updateResponse = pstmt.executeUpdate();
 			if(updateResponse !=0){
+				SharingMailDao dao = new SharingMailDao();
+				dao.deleteSharingMessages(mail.getMailId());
+				if(mail.getSharingIds() != null && mail.getSharingIds().length > 0) {
+					dao.shareMail(mail.getMailId(), mail.getSharingIds());
+				}
 				response.setResponseStatus("Success");
 				response.setResponseMessage("mail Update Successfull");
 			}else {
@@ -64,11 +69,13 @@ public class MailDao {
 		try {
 			String query = "select * from mail  where mailFrom = ?";
 			connection = DBConnectionUtil.getconnection();
-			if(mail.isMailType()) {
+			if(mail.isMailType()) {// public 
 				query+=" union select * from mail  where mailFrom != ? and mailType =?";
+				query+=" union select * from mail where mailid in (select mailId from messagesharing where userId = ?)";
 				pstmt = connection.prepareStatement(query);
 				pstmt.setString(2,mail.getMailFrom());
 				pstmt.setBoolean(3, mail.isMailType());
+				pstmt.setString(4,mail.getMailFrom());
 			}else {
 				pstmt = connection.prepareStatement(query);
 			}
@@ -211,6 +218,10 @@ public class MailDao {
 				int mailId= rs.getInt(1);
 				System.out.println("Generated mail Id: "+mailId);
 				mail.setMailId(mailId);
+				SharingMailDao dao =new SharingMailDao();
+				if(mail.getSharingIds() != null && mail.getSharingIds().length > 0) {
+					dao.shareMail(mailId, mail.getSharingIds());
+				}
 				response.setResponseStatus("Success");
 				response.setResponseMessage("Message Post Successfull");
 			}else {
@@ -248,6 +259,8 @@ public class MailDao {
 			System.err.println("Prepared Statement for delete mail after bind variables set:\n\t" + pstmt.toString());
 			int updateResponse = pstmt.executeUpdate();
 			if(updateResponse !=0){
+				SharingMailDao dao = new SharingMailDao();
+				dao.deleteSharingMessages(mail.getMailId());
 				response.setResponseStatus("Success");
 				response.setResponseMessage("mail Delete Successfull");
 			}else {

@@ -14,6 +14,33 @@
 		<script src="js/fetch_mails.js"></script>
 		<script src="js/remove_message.js"></script>
 		<link rel="stylesheet" href="assets/css/noscript.css" />
+		<script type="text/javascript">
+		// A $( document ).ready() block.
+		$( document ).ready(function() {
+			checkMailType();
+		});
+		</script>
+		<script type="text/javascript">
+			function checkMailType(){
+				var isPublic = $("#mailType").val();
+				if(isPublic != "true"){
+					$("#newMailSharingDiv").show();
+					getUsers();
+				}else{
+					$("#newMailSharingDiv").hide(100);
+				}
+			}
+		</script>
+				<script type="text/javascript">
+			function checkMailTypeForEdit(){
+				var isPublic = $("#editMailType").val();
+				if(isPublic != "true"){
+					$("#updateMailSharingDiv").show();
+				}else{
+					$("#updateMailSharingDiv").hide(100);
+				}
+			}
+		</script>
 		<script>
 			function messagePost(){
 				checkLogin();
@@ -88,9 +115,14 @@
 									</div>
 									<div class="field half">
 										<label for="email">Mail Type:</label>
-										<select id="mailType" name="mailType">
+										<select id="mailType" name="mailType" onchange="javascript:checkMailType();">
 											<option value="false">Private</option>
 											<option value="true">Public</option>
+										</select>
+									</div>
+									<div id="newMailSharingDiv" class="field">
+										<label for="email">Select Users:</label>
+										<select name="newMailSharingUserIds" id="newMailSharingUserIds" multiple="multiple" style="height: 9.75rem;">
 										</select>
 									</div>
 									<div class="field">
@@ -200,9 +232,14 @@
 								<div class="field half first"></div><div class="field half"></div>
 									<div class="field">
 										<label for="name">Mail Type:</label>
-										<select id="editMailType" name="editMailType">
+										<select id="editMailType" name="editMailType" onchange="javascript:checkMailTypeForEdit();">
 											<option value="false">Private</option>
 											<option value="true">Public</option>
+										</select>
+									</div>
+									<div id="updateMailSharingDiv" class="field">
+										<label for="email">Change Users:</label>
+										<select name="updateMailSharingUserIds" id="updateMailSharingUserIds" multiple="multiple" style="height: 9.75rem;">
 										</select>
 									</div>
 									<div class="field">

@@ -35,9 +35,9 @@ public class DBConnectionUtil {
         try {
             
             Class.forName(dbDriver);
-            Logger.getLogger(DBConnectionUtil.class.getName()).log(Level.INFO, dbDriver + " Loaded" , dbDriver + " Loaded");
-            Logger.getLogger(DBConnectionUtil.class.getName()).log(Level.INFO, dbURL, dbURL);
+            System.out.println(":::::::::::::::::::::::::::: Diver Loaded : " + dbDriver + " ::::::::::::::::::::::::::::::::::::");
             connection = DriverManager.getConnection(dbURL, userName, password);
+            System.out.println(":::::::::::::::::::::::::::: Connection Established : " + dbURL + " ::::::::::::::::::::::::::::::::::::");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DBConnectionUtil.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

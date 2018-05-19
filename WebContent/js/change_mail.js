@@ -36,7 +36,40 @@ function getMessagesForUpdate(messageType){
 	}
 
 }
+function getSharingIdsforByMessageId(){
+	try {
+		var mail = new Object();
+		mail.mailId = sessionStorage.getItem("mailId");
+		$.ajax({
+			url : "http://localhost:8080/SocialMessaging/GetSharingIdsByMessageId",
+			type : 'POST',
+			dataType : 'json',
+			data : JSON.stringify(mail),
+			contentType : 'application/json',
+			mimeType : 'application/json',
 
+			success : function(data) {
+				var respJSONString = JSON.stringify(data);
+				console.log(respJSONString);
+				var jsonObj = JSON.parse(respJSONString);
+				console.log(jsonObj.responseStatus + " : " + jsonObj.responseMessage);
+				$('#updateMailSharingUserIds').empty();
+				$.each(data.responseBody, function (i, item) {
+					var option = new Option(item, item); 
+					$('#updateMailSharingUserIds').append('<option>' + item + '</option>');
+
+				});
+			},
+
+			error : function(data, status, er) {
+				alert("error: " + JSON.stringify(data) + " status: " + status + " er:" + er);
+			}
+		});
+	} catch (ex) {
+		alert(ex);
+	}
+
+}
 function editMessage(message){
 	console.log(message);
 	$("#editMailSubject").val(message.mailSubject);
@@ -50,6 +83,7 @@ function editMessage(message){
 	} else {
 		console.log("Sorry, your browser does not support Web Storage...");
 	}
+	getSharingIdsforByMessageId();
 	location.href = "#editMessagePost";
 }
 
@@ -62,6 +96,7 @@ function updateMessageById(){
 		message.mailFrom = sessionStorage.getItem("userId");
 		message.mailContent = $("#editMailContent").val();
 		message.mailType = $("#editMailType").val();
+		message.sharingIds = $('#updateMailSharingUserIds').val();
 		$.ajax({
 			url : "http://localhost:8080/SocialMessaging/ChangeMail",
 			type : 'POST',
@@ -77,18 +112,22 @@ function updateMessageById(){
 				console.log(jsonObj.responseStatus + " : " + jsonObj.responseMessage);
 				if(jsonObj.responseStatus == "Success"){
 					alert("Message Updated successfully.");
+					window.location="./mail.html";
 				}else{
 					alert("Message Updated Fail.");
+					window.location="./mail.html";
 				}
 			},
 
 			error : function(data, status, er) {
 				alert("error: " + JSON.stringify(data) + " status: " + status + " er:" + er);
+				window.location="./mail.html";
 			}
 		});
 	} catch (ex) {
 		alert(ex);
+		window.location="./mail.html";
 	}
 
-	window.location="./mail.html";
+	
 }

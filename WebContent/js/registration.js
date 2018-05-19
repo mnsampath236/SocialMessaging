@@ -33,9 +33,11 @@ function registration() {
 
 			error : function(data, status, er) {
 				alert("error: " + JSON.stringify(data) + " status: " + status + " er:" + er);
+				window.location="./index.html"
 			}
 		});
 	} catch (ex) {
 		alert(ex);
+		window.location="./index.html"
 	}
 }

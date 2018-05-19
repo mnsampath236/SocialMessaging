@@ -27,7 +27,7 @@ function getMessages(messageType){
 							eachrow += "<td> Public </td>"
 						}else{
 							eachrow += "<td> Private </td>"
-						}
+						}e
 						eachrow += "</tr>";
 					$('#tbody').append(eachrow);
 				})

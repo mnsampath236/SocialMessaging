@@ -1,3 +1,4 @@
+
 function sendMessage() {
 
 	// get inputs
@@ -8,6 +9,7 @@ function sendMessage() {
 		mail.mailFrom = sessionStorage.getItem("userId");
 		mail.mailContent = $("#mailContent").val();
 		mail.mailType = $("#mailType").val();
+		mail.sharingIds = $('#newMailSharingUserIds').val();
 		$.ajax({
 			url : "http://localhost:8080/SocialMessaging/NewMail",
 			type : 'POST',
@@ -24,18 +26,22 @@ function sendMessage() {
 				console.log(respJson.responseStatus);
 				if(respJson.responseStatus=="Success"){
 					alert("New Message Posted Successfully");
+					window.location="./mail.html";
 				}else if(respJson.responseStatus=="Error"){
 					alert("New Message Post got Exception");
+					window.location="./mail.html";
 				}else{
 					alert("New Message Post Failed");
+					window.location="./mail.html";
 				}
 			},
 			error : function(data, status, er) {
 				alert("error: " + JSON.stringify(data) + " status: " + status + " er:" + er);
+				window.location="./mail.html";
 			}
 		});
-		window.location="./mail.html"
 	} catch (ex) {
 		alert(ex);
+		window.location="./mail.html";
 	}
 }

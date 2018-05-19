@@ -44,7 +44,39 @@ function login() {
 		alert(ex);
 	}
 }
+function getUsers(){
+	try {
+		var user = new Object();
+		user.userId = sessionStorage.getItem("userId");
+		$.ajax({
+			url : "http://localhost:8080/SocialMessaging/GetUserIds",
+			type : 'POST',
+			dataType : 'json',
+			data : JSON.stringify(user),
+			contentType : 'application/json',
+			mimeType : 'application/json',
 
+			success : function(data) {
+				var respJSONString = JSON.stringify(data);
+				console.log(respJSONString);
+				var jsonObj = JSON.parse(respJSONString);
+				console.log(jsonObj.responseStatus + " : " + jsonObj.responseMessage);
+				$('#newMailSharingUserIds').empty();
+				$.each(data.responseBody, function (i, item) {
+					var option = new Option(item, item); 
+					$('#newMailSharingUserIds').append('<option>' + item + '</option>');
+
+				});
+			},
+
+			error : function(data, status, er) {
+				alert("error: " + data + " status: " + status + " er:" + er);
+			}
+		});
+	} catch (ex) {
+		alert(ex);
+	}
+}
 function logout(){
 	sessionStorage.setItem("userId", "");
 	alert("Successfully log out.");

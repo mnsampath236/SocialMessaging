@@ -59,17 +59,21 @@ function deleteMessabeById(mailId){
 				console.log(jsonObj.responseStatus + " : " + jsonObj.responseMessage);
 				if(jsonObj.responseStatus == "Success"){
 					alert("Message deleted successfully.");
+					window.location="./mail.html";
 				}else{
 					alert("Message Not deleted.");
+					window.location="./mail.html";
 				}
 			},
 
 			error : function(data, status, er) {
 				alert("error: " + JSON.stringify(data) + " status: " + status + " er:" + er);
+				window.location="./mail.html";
 			}
 		});
 	} catch (ex) {
 		alert(ex);
+		window.location="./mail.html";
 	}
-	window.location="./mail.html";
+
 }

@@ -2,6 +2,8 @@ package in.social.messaging.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import in.social.messaging.model.Response;
 import in.social.messaging.model.User;
@@ -62,5 +64,34 @@ public class UserDao {
 			e.printStackTrace();
 		}
 		return user;
+	}
+	public Response findAllUsers(User user) {
+		Response response = new Response();
+		List<String> users = null;
+		String query = "select userId from user where  userId !='" + user.getUserId() +"'";
+		users = parseUserIds(DBConnectionUtil.getData(query));
+		if(users.size() ==0) {
+			response.setResponseStatus("Fail");
+			response.setResponseMessage("findAllUsers fail");
+			response.setResponseBody(users);
+		}else {
+			response.setResponseStatus("Success");
+			response.setResponseMessage("findAllUsers success");
+		}
+		response.setResponseBody(users);
+		System.out.println("findAllUsers Response : " + response);
+		return response;
+	}
+
+	private List<String> parseUserIds(ResultSet rs) {
+		List<String> users = new ArrayList<String>();
+		try {
+			while(null != rs && rs.next()) {
+				users.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return users;
 	}
 }

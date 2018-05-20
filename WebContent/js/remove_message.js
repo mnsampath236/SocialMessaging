@@ -7,7 +7,7 @@ function getMessagesForDelete(messageType){
 		message.mailFrom = sessionStorage.getItem("userId");
 		message.mailType = messageType;
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/FetchMail",
+			url : "./FetchMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),
@@ -45,7 +45,7 @@ function deleteMessabeById(mailId){
 		var message = new Object();
 		message.mailId = mailId;
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/RemoveMail",
+			url : "./RemoveMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),

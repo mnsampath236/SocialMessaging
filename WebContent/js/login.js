@@ -7,7 +7,7 @@ function login() {
 		user.password = $('#singinPassword').val();
 
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/UserAuthentication",
+			url : "./UserAuthentication",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(user),
@@ -49,7 +49,7 @@ function getUsers(){
 		var user = new Object();
 		user.userId = sessionStorage.getItem("userId");
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/GetUserIds",
+			url : "./GetUserIds",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(user),

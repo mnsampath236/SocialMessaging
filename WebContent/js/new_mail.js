@@ -11,7 +11,7 @@ function sendMessage() {
 		mail.mailType = $("#mailType").val();
 		mail.sharingIds = $('#newMailSharingUserIds').val();
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/NewMail",
+			url : "./NewMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(mail),

@@ -11,7 +11,7 @@ function registration() {
 		user.password = $('#registrationPassword').val();
 
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/UserAuthorization",
+			url : "./UserAuthorization",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(user),

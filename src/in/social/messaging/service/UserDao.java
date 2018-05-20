@@ -30,7 +30,7 @@ public class UserDao {
 
 	public Response authorizeUser(User user) {
 		Response response = new Response();
-		String query = "insert into user values ('"+user.getUserId()+"','"+user.getFirstName()+"','"+user.getLastName()+"','"+user.getMobile()+"','"+user.getAddress()+"','"+user.getPassword()+"')";
+		String query = "insert into user values ('"+user.getUserId()+"','"+user.getFirstName()+"','"+user.getLastName()+"','"+user.getAddress()+"','"+user.getMobile()+"','"+user.getPassword()+"')";
 		int saveDBResponse = DBConnectionUtil.insert(query);
 		if(saveDBResponse == 0) {
 			response.setResponseStatus("Fail");

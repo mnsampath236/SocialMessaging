@@ -7,7 +7,7 @@ function getMessages(messageType){
 		message.mailFrom = sessionStorage.getItem("userId");
 		message.mailType = messageType;
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/FetchMail",
+			url : "./FetchMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),
@@ -27,7 +27,7 @@ function getMessages(messageType){
 							eachrow += "<td> Public </td>"
 						}else{
 							eachrow += "<td> Private </td>"
-						}e
+						}
 						eachrow += "</tr>";
 					$('#tbody').append(eachrow);
 				})

@@ -7,7 +7,7 @@ function getMessagesForUpdate(messageType){
 		message.mailFrom = sessionStorage.getItem("userId");
 		message.mailType = messageType;
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/FetchMail",
+			url : "./FetchMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),
@@ -41,7 +41,7 @@ function getSharingIdsforByMessageId(){
 		var mail = new Object();
 		mail.mailId = sessionStorage.getItem("mailId");
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/GetSharingIdsByMessageId",
+			url : "./GetSharingIdsByMessageId",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(mail),
@@ -98,7 +98,7 @@ function updateMessageById(){
 		message.mailType = $("#editMailType").val();
 		message.sharingIds = $('#updateMailSharingUserIds').val();
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/ChangeMail",
+			url : "./ChangeMail",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),

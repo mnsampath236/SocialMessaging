@@ -5,7 +5,7 @@ function searchMessages(){
 		message.mailContent = $("#findMailContent").val();
 		message.mailSubject = $("#findMessageSubject").val();
 		$.ajax({
-			url : "http://localhost:8080/SocialMessaging/FindMails",
+			url : "./FindMails",
 			type : 'POST',
 			dataType : 'json',
 			data : JSON.stringify(message),
